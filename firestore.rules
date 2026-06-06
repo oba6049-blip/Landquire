@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // 2. Global helper functions
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // 3. Validation Blueprint for Lead
+    function isValidLead(data) {
+      return data.keys().hasAll(['fullName', 'phone', 'email', 'plotSize', 'createdAt'])
+        && data.keys().size() <= 7
+        && data.fullName is string && data.fullName.size() >= 2 && data.fullName.size() <= 150
+        && data.phone is string && data.phone.size() >= 6 && data.phone.size() <= 30
+        && data.email is string && data.email.size() >= 5 && data.email.size() <= 150
+        && data.plotSize is string && (data.plotSize == '300 SQM' || data.plotSize == '500 SQM')
+        && (!('message' in data) || (data.message is string && data.message.size() <= 1500))
+        && data.createdAt is timestamp;
+    }
+
+    // 4. Leads Path
+    match /leads/{leadId} {
+      // Allow public creation of inquiry leads but validate fields strictly
+      allow create: if isValidId(leadId) && isValidLead(incoming());
+      
+      // Strict PII protection: leads are never readable or modifiable by the public once submitted
+      allow read, update, delete: if false;
+    }
+  }
+}

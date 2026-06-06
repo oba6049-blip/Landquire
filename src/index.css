@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-primary: #102A72;
+  --color-brand-secondary: #1D3E8A;
+  --color-brand-gold: #D4A437;
+  --color-light-gray: #F5F7FA;
+  --color-dark-text: #1A1A1A;
+  
+  --font-sans: 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Custom Geometric Utilities */
+.glass-card {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 164, 55, 0.15);
+}
+
+.stat-box {
+  border-left: 4px solid #D4A437;
+  padding-left: 1.25rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}

@@ -1,0 +1,48 @@
+{
+  "entities": {
+    "Lead": {
+      "title": "Lead",
+      "description": "Property inquiry lead submission.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the lead."
+        },
+        "fullName": {
+          "type": "string",
+          "description": "Full name of the prospect."
+        },
+        "phone": {
+          "type": "string",
+          "description": "Contact phone number of the prospect."
+        },
+        "email": {
+          "type": "string",
+          "description": "Contact email address of the prospect."
+        },
+        "plotSize": {
+          "type": "string",
+          "enum": ["300 SQM", "500 SQM"],
+          "description": "Interest size size (300 SQM or 500 SQM)."
+        },
+        "message": {
+          "type": "string",
+          "description": "Additional text or query sent by the prospect."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the contact was submitted."
+        }
+      },
+      "required": ["fullName", "phone", "email", "plotSize", "createdAt"]
+    }
+  },
+  "firestore": {
+    "leads/{leadId}": {
+      "schema": "Lead",
+      "description": "Leads collected from El Mirage Estate interest forms."
+    }
+  }
+}
