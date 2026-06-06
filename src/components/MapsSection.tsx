@@ -4,6 +4,7 @@
  */
 
 import { MapPin, Compass, Navigation, Landmark } from 'lucide-react';
+import { motion } from 'motion/react';
 
 export default function MapsSection() {
   const coordinates = "6.4950° N, 3.1026° E";
@@ -13,23 +14,41 @@ export default function MapsSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="text-center max-w-3xl mx-auto mb-16 space-y-3"
+        >
           <span className="text-xs font-extrabold tracking-[0.25em] text-brand-gold uppercase block">
             LOCATION FINDER
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 uppercase tracking-tight">
             Find El Mirage Estate on Map
           </h2>
-          <div className="h-[2px] w-16 bg-brand-gold mx-auto my-4" />
-          <p className="text-sm text-gray-650 max-w-xl mx-auto font-sans leading-relaxed">
+          <motion.div 
+            initial={{ width: 0 }}
+            whileInView={{ width: 64 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="h-[2px] bg-brand-gold mx-auto my-4" 
+          />
+          <p className="text-sm text-gray-655 max-w-xl mx-auto font-sans leading-relaxed">
             Review of our strategic geographical placement in the Agbara expansion zone along the Lagos boundary.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
           {/* Map Frame Holder */}
-          <div className="lg:col-span-8 overflow-hidden shadow-2xl border border-gray-200 min-h-[380px] relative bg-slate-50">
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, type: 'spring' }}
+            className="lg:col-span-8 overflow-hidden shadow-2xl border border-gray-200 min-h-[380px] relative bg-slate-50"
+          >
             <iframe
               src="https://maps.google.com/maps?q=Agbara,%20Lagos,%20Nigeria&t=&z=13&ie=UTF8&iwloc=&output=embed"
               className="w-full h-full min-h-[380px] border-0"
@@ -38,10 +57,19 @@ export default function MapsSection() {
               referrerPolicy="no-referrer-when-downgrade"
               title="Agbara Lagos Nigeria Map Location"
             />
-          </div>
+          </motion.div>
 
           {/* Location details card - Sharp Geometric Frame */}
-          <div className="lg:col-span-4 bg-brand-primary text-white p-8 shadow-xl flex flex-col justify-between relative overflow-hidden border border-brand-gold/30">
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, type: 'spring', delay: 0.1 }}
+            whileHover={{ 
+              boxShadow: "0 20px 25px -5px rgba(184, 140, 43, 0.15), 0 10px 10px -5px rgba(184, 140, 43, 0.1)"
+            }}
+            className="lg:col-span-4 bg-brand-primary text-white p-8 shadow-xl flex flex-col justify-between relative overflow-hidden border border-brand-gold/30"
+          >
             
             <div className="space-y-6">
               <span className="text-[10px] tracking-widest font-mono text-brand-gold uppercase font-bold block">
@@ -51,7 +79,7 @@ export default function MapsSection() {
               <h3 className="text-brand-gold text-2xl font-bold leading-tight uppercase">
                 El Mirage Estate
               </h3>
-
+              
               {/* Geographic stats lines */}
               <div className="space-y-4 pt-2">
                 
@@ -96,7 +124,7 @@ export default function MapsSection() {
               </p>
             </div>
 
-          </div>
+          </motion.div>
 
         </div>
 

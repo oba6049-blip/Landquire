@@ -78,13 +78,14 @@ export default function FeaturedProperty({ onOpenInquiry }: FeaturedPropertyProp
           
           {/* Left Column: Visual Property Details & Benefits */}
           <div className="lg:col-span-6 space-y-8">
-            <div className="overflow-hidden shadow-2xl aspect-[16/10] bg-slate-200 border border-gray-200">
+            <div className="overflow-hidden shadow-2xl aspect-[16/10] bg-slate-200 border border-gray-200 group relative">
               <img
                 src="https://imgur.com/6wtcMHi.png"
                 alt="El Mirage Development Site"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 referrerPolicy="no-referrer"
               />
+              <div className="absolute inset-0 bg-brand-primary/5 group-hover:bg-transparent transition-colors duration-300 pointer-events-none" />
             </div>
 
             <div className="space-y-4">
@@ -95,11 +96,31 @@ export default function FeaturedProperty({ onOpenInquiry }: FeaturedPropertyProp
                 El Mirage Estate represents an elite investment canvas designed carefully for high yields and secured physical holdings. Strategically located inside the Lagos industrial boundary, you obtain a robust legal safety framework coupled with remarkable development momentum.
               </p>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+              <motion.div 
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-40px" }}
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: {
+                    opacity: 1,
+                    transition: { staggerChildren: 0.08 }
+                  }
+                }}
+                className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4"
+              >
                 {benefits.map((benefit, i) => {
                   const BenefitIcon = benefit.icon;
                   return (
-                    <div key={i} className="flex items-start space-x-3 bg-white p-4 border-l-4 border-l-brand-gold border-y border-r border-gray-205 shadow-sm">
+                    <motion.div 
+                      key={i} 
+                      variants={{
+                        hidden: { opacity: 0, y: 15 },
+                        visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 80 } }
+                      }}
+                      whileHover={{ y: -3, borderColor: "rgba(184, 140, 43, 0.4)", boxShadow: "0 4px 12px rgba(16,42,114,0.05)" }}
+                      className="flex items-start space-x-3 bg-white p-4 border-l-4 border-l-brand-gold border-y border-r border-gray-205 shadow-sm transition-all duration-200"
+                    >
                       <div className="h-8 w-8 bg-brand-primary/10 flex items-center justify-center shrink-0">
                         <BenefitIcon className="h-4 w-4 text-brand-primary" />
                       </div>
@@ -107,10 +128,10 @@ export default function FeaturedProperty({ onOpenInquiry }: FeaturedPropertyProp
                         <h4 className="text-xs font-extrabold uppercase text-gray-950 tracking-wide">{benefit.label}</h4>
                         <p className="text-[10px] text-gray-500 line-clamp-2 mt-0.5 leading-relaxed">{benefit.desc}</p>
                       </div>
-                    </div>
+                    </motion.div>
                   );
                 })}
-              </div>
+              </motion.div>
             </div>
           </div>
 

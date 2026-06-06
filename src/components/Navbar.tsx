@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { Menu, X, Phone, Mail } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface NavbarProps {
   onOpenInquiry: () => void;
@@ -143,39 +144,55 @@ export default function Navbar({ onOpenInquiry, onNavigate, currentPage = 'home'
           </div>
         </div>
 
-        {/* Mobile menu panel */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden bg-brand-primary border-t border-white/5 px-2 pt-2 pb-4 space-y-1 shadow-inner animate-fade-in">
-            {[
-              { name: 'Home', id: 'hero' },
-              { name: 'About Partners', id: 'about' },
-              { name: 'El Mirage Estate', id: 'property' },
-              { name: 'Why Invest Here', id: 'why-invest' },
-              { name: 'Property Gallery', id: 'gallery' },
-              { name: 'FAQs', id: 'faq' },
-              { name: 'Contact Form', id: 'contact' },
-            ].map((item) => (
-              <button
-                key={item.name}
-                onClick={() => scrollToSection(item.id)}
-                className="block w-full text-left px-4 py-3 text-xs font-bold uppercase tracking-widest text-[#F5F7FA]/90 hover:bg-brand-secondary hover:text-brand-gold transition-colors"
+        {/* Mobile menu panel with Framer Motion slide-down transition */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="lg:hidden bg-brand-primary border-t border-white/5 px-2 pt-2 pb-4 space-y-1 shadow-inner overflow-hidden"
+            >
+              {[
+                { name: 'Home', id: 'hero' },
+                { name: 'About Partners', id: 'about' },
+                { name: 'El Mirage Estate', id: 'property' },
+                { name: 'Why Invest Here', id: 'why-invest' },
+                { name: 'Property Gallery', id: 'gallery' },
+                { name: 'FAQs', id: 'faq' },
+                { name: 'Contact Form', id: 'contact' },
+              ].map((item, index) => (
+                <motion.button
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.04 }}
+                  key={item.name}
+                  onClick={() => scrollToSection(item.id)}
+                  className="block w-full text-left px-4 py-3 text-xs font-bold uppercase tracking-widest text-[#F5F7FA]/90 hover:bg-brand-secondary hover:text-brand-gold transition-colors"
+                >
+                  {item.name}
+                </motion.button>
+              ))}
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="pt-4 px-4"
               >
-                {item.name}
-              </button>
-            ))}
-            <div className="pt-4 px-4">
-              <button
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  onOpenInquiry();
-                }}
-                className="w-full text-center py-3 bg-brand-gold text-white text-xs font-bold tracking-widest uppercase transition-colors"
-              >
-                Book Inspection
-              </button>
-            </div>
-          </div>
-        )}
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    onOpenInquiry();
+                  }}
+                  className="w-full text-center py-3 bg-brand-gold text-white text-xs font-bold tracking-widest uppercase transition-colors"
+                >
+                  Book Inspection
+                </button>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
     </>
   );
